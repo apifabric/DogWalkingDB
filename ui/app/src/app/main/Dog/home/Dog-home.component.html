@@ -1,0 +1,46 @@
+<o-form-layout-manager attr="Dog" mode="tab" title="DOG">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="DogTable" 
+            service="Dog" 
+            entity="Dog" 
+            title="DOG"
+            keys="id"
+            columns="name;client_id;age;id;breed" 
+            header-actions="R;D"
+            visible-columns="name;client_id;age;id;breed"  
+            sort-columns="name" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #name attr="name" title=" name*" editable="no" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-column attr="client_id" title="client_id">
+    <o-table-cell-renderer-service attr="client_id" 
+        service="Client" entity="ClientType" columns="id;name"
+        parent-keys="id:client_id"
+        value-column="name" keys="client_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column #age attr="age" title="age" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column #id attr="id" title="id" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column #breed attr="breed" title="breed" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

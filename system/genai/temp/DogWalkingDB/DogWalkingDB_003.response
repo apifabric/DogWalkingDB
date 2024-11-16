@@ -1,0 +1,79 @@
+{
+    "models": [
+        {
+            "classname": "Client",
+            "code": "class Client(Base):\n    \"\"\"description: Represents a client in the dog walking business.\"\"\"\n    __tablename__ = 'client'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)\n    phone_number = Column(String)\n    email = Column(String)",
+            "description": "Represents a client in the dog walking business.",
+            "name": "Client"
+        },
+        {
+            "classname": "Dog",
+            "code": "class Dog(Base):\n    \"\"\"description: Represents a dog belonging to a client.\"\"\"\n    __tablename__ = 'dog'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)\n    breed = Column(String)\n    age = Column(Integer)\n    client_id = Column(Integer, ForeignKey('client.id'))",
+            "description": "Represents a dog belonging to a client.",
+            "name": "Dog"
+        },
+        {
+            "classname": "Walker",
+            "code": "class Walker(Base):\n    \"\"\"description: Represents a dog walker.\"\"\"\n    __tablename__ = 'walker'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)\n    phone_number = Column(String)\n    email = Column(String)",
+            "description": "Represents a dog walker.",
+            "name": "Walker"
+        },
+        {
+            "classname": "WalkSchedule",
+            "code": "class WalkSchedule(Base):\n    \"\"\"description: Represents a schedule for a dog walk.\"\"\"\n    __tablename__ = 'walk_schedule'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    walk_date = Column(Date, nullable=False)\n    start_time = Column(DateTime, nullable=False)\n    end_time = Column(DateTime)\n    walker_id = Column(Integer, ForeignKey('walker.id'))\n    dog_id = Column(Integer, ForeignKey('dog.id'))",
+            "description": "Represents a schedule for a dog walk.",
+            "name": "WalkSchedule"
+        },
+        {
+            "classname": "WalkLog",
+            "code": "class WalkLog(Base):\n    \"\"\"description: Logs details about a completed dog walk.\"\"\"\n    __tablename__ = 'walk_log'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    walk_schedule_id = Column(Integer, ForeignKey('walk_schedule.id'))\n    distance_walked = Column(Integer)\n    duration = Column(Integer)  # duration in minutes\n    notes = Column(String)",
+            "description": "Logs details about a completed dog walk.",
+            "name": "WalkLog"
+        },
+        {
+            "classname": "Feedback",
+            "code": "class Feedback(Base):\n    \"\"\"description: Represents feedback from clients about a walk/walker.\"\"\"\n    __tablename__ = 'feedback'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    walk_log_id = Column(Integer, ForeignKey('walk_log.id'))\n    client_id = Column(Integer, ForeignKey('client.id'))\n    rating = Column(Integer)  # rating out of 5\n    comments = Column(String)",
+            "description": "Represents feedback from clients about a walk/walker.",
+            "name": "Feedback"
+        },
+        {
+            "classname": "Invoice",
+            "code": "class Invoice(Base):\n    \"\"\"description: Represents an invoice for services provided to a client.\"\"\"\n    __tablename__ = 'invoice'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    client_id = Column(Integer, ForeignKey('client.id'))\n    amount_due = Column(Integer, nullable=False)\n    due_date = Column(Date, nullable=False)\n    paid_date = Column(Date)",
+            "description": "Represents an invoice for services provided to a client.",
+            "name": "Invoice"
+        },
+        {
+            "classname": "Payment",
+            "code": "class Payment(Base):\n    \"\"\"description: Represents a payment made by a client.\"\"\"\n    __tablename__ = 'payment'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    invoice_id = Column(Integer, ForeignKey('invoice.id'))\n    amount_paid = Column(Integer, nullable=False)\n    payment_date = Column(Date, nullable=False)",
+            "description": "Represents a payment made by a client.",
+            "name": "Payment"
+        },
+        {
+            "classname": "ServiceType",
+            "code": "class ServiceType(Base):\n    \"\"\"description: Represents different types of services offered.\"\"\"\n    __tablename__ = 'service_type'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)\n    rate = Column(Integer)  # rate per hour or service\n    description = Column(String)",
+            "description": "Represents different types of services offered.",
+            "name": "ServiceType"
+        },
+        {
+            "classname": "WalkService",
+            "code": "class WalkService(Base):\n    \"\"\"description: Represents a specific service type linked to a walk schedule.\"\"\"\n    __tablename__ = 'walk_service'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    walk_schedule_id = Column(Integer, ForeignKey('walk_schedule.id'))\n    service_type_id = Column(Integer, ForeignKey('service_type.id'))",
+            "description": "Represents a specific service type linked to a walk schedule.",
+            "name": "WalkService"
+        },
+        {
+            "classname": "SpecialInstruction",
+            "code": "class SpecialInstruction(Base):\n    \"\"\"description: Represents special instructions for a dog walk.\"\"\"\n    __tablename__ = 'special_instruction'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    walk_schedule_id = Column(Integer, ForeignKey('walk_schedule.id'))\n    instruction = Column(String, nullable=False)",
+            "description": "Represents special instructions for a dog walk.",
+            "name": "SpecialInstruction"
+        },
+        {
+            "classname": "Promotion",
+            "code": "class Promotion(Base):\n    \"\"\"description: Represents promotional offers available to clients.\"\"\"\n    __tablename__ = 'promotion'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)\n    discount_percentage = Column(Integer)  # discount as a percentage\n    validity_start_date = Column(Date)\n    validity_end_date = Column(Date)",
+            "description": "Represents promotional offers available to clients.",
+            "name": "Promotion"
+        }
+    ],
+    "rules": [],
+    "test_data": "# Test Data Creation\n\n# Clients\nclient1 = Client(name='John Doe', phone_number='555-0100', email='john.doe@example.com')\nclient2 = Client(name='Jane Smith', phone_number='555-0101', email='jane.smith@example.com')\nclient3 = Client(name='Chris Johnson', phone_number='555-0102', email='chris.johnson@example.com')\nclient4 = Client(name='Patricia Brown', phone_number='555-0103', email='patricia.brown@example.com')\n\n# Dogs\n\n# Assume each dog belongs to a client\n\ndog1 = Dog(name='Rex', breed='German Shepherd', age=5, client_id=1)\ndog2 = Dog(name='Buddy', breed='Golden Retriever', age=3, client_id=1)\ndog3 = Dog(name='Luna', breed='Labrador', age=4, client_id=2)\ndog4 = Dog(name='Bella', breed='Poodle', age=2, client_id=3)\n\n# Walkers\nwalker1 = Walker(name='Oliver Grey', phone_number='555-0200', email='oliver.grey@example.com')\nwalker2 = Walker(name='Emily Rose', phone_number='555-0201', email='emily.rose@example.com')\nwalker3 = Walker(name='Jack Black', phone_number='555-0202', email='jack.black@example.com')\nwalker4 = Walker(name='Sophia White', phone_number='555-0203', email='sophia.white@example.com')\n\n# Walk Schedule\nwalk_schedule1 = WalkSchedule(walk_date=date(2023, 8, 1), start_time=datetime(2023, 8, 1, 9, 0), end_time=datetime(2023, 8, 1, 10, 0), walker_id=1, dog_id=1)\nwalk_schedule2 = WalkSchedule(walk_date=date(2023, 8, 2), start_time=datetime(2023, 8, 2, 11, 0), end_time=datetime(2023, 8, 2, 12, 0), walker_id=2, dog_id=2)\nwalk_schedule3 = WalkSchedule(walk_date=date(2023, 8, 3), start_time=datetime(2023, 8, 3, 14, 0), end_time=datetime(2023, 8, 3, 15, 0), walker_id=3, dog_id=3)\nwalk_schedule4 = WalkSchedule(walk_date=date(2023, 8, 4), start_time=datetime(2023, 8, 4, 10, 0), end_time=datetime(2023, 8, 4, 11, 0), walker_id=4, dog_id=4)\n\n# Walk Log\nwalk_log1 = WalkLog(walk_schedule_id=1, distance_walked=2000, duration=60, notes='Good walk, sunny weather.')\nwalk_log2 = WalkLog(walk_schedule_id=2, distance_walked=1500, duration=60, notes='Dog seemed tired.')\nwalk_log3 = WalkLog(walk_schedule_id=3, distance_walked=1800, duration=60, notes='Cloudy day.')\nwalk_log4 = WalkLog(walk_schedule_id=4, distance_walked=2200, duration=60, notes='Great energy.')\n\n# Feedback\nfeedback1 = Feedback(walk_log_id=1, client_id=1, rating=5, comments='Excellent service.')\nfeedback2 = Feedback(walk_log_id=2, client_id=1, rating=4, comments='Good, but was late.')\nfeedback3 = Feedback(walk_log_id=3, client_id=2, rating=4, comments='Tiring but fun.')\nfeedback4 = Feedback(walk_log_id=4, client_id=3, rating=5, comments='Amazing experience.')\n\n# Invoices\ninvoice1 = Invoice(client_id=1, amount_due=150, due_date=date(2023, 8, 10))\ninvoice2 = Invoice(client_id=2, amount_due=120, due_date=date(2023, 8, 12))\ninvoice3 = Invoice(client_id=3, amount_due=130, due_date=date(2023, 8, 15))\ninvoice4 = Invoice(client_id=4, amount_due=100, due_date=date(2023, 8, 18))\n\n# Payments\npayment1 = Payment(invoice_id=1, amount_paid=150, payment_date=date(2023, 8, 9))\npayment2 = Payment(invoice_id=2, amount_paid=120, payment_date=date(2023, 8, 11))\npayment3 = Payment(invoice_id=3, amount_paid=130, payment_date=date(2023, 8, 14))\npayment4 = Payment(invoice_id=4, amount_paid=100, payment_date=date(2023, 8, 17))\n\n# Service Types\nservice_type1 = ServiceType(name='Basic Walk', rate=20, description='A simple walk around the neighborhood.')\nservice_type2 = ServiceType(name='Intensive Walk', rate=30, description='A long walk including play time.')\nservice_type3 = ServiceType(name='Short Walk', rate=15, description='A quick walk for busy schedules.')\nservice_type4 = ServiceType(name='Puppy Session', rate=25, description='A session focused on younger dogs.')\n\n# Walk Services\nwalk_service1 = WalkService(walk_schedule_id=1, service_type_id=1)\nwalk_service2 = WalkService(walk_schedule_id=2, service_type_id=2)\nwalk_service3 = WalkService(walk_schedule_id=3, service_type_id=3)\nwalk_service4 = WalkService(walk_schedule_id=4, service_type_id=4)\n\n# Special Instructions\ninstruction1 = SpecialInstruction(walk_schedule_id=1, instruction=\"Avoid crowded areas.\")\ninstruction2 = SpecialInstruction(walk_schedule_id=2, instruction=\"Focus on training commands.\")\ninstruction3 = SpecialInstruction(walk_schedule_id=3, instruction=\"Bring dog treats.\")\ninstruction4 = SpecialInstruction(walk_schedule_id=4, instruction=\"Avoid other dogs.\")\n\n# Promotions\npromotion1 = Promotion(name='Summer Special', discount_percentage=10, validity_start_date=date(2023, 6, 1), validity_end_date=date(2023, 8, 31))\npromotion2 = Promotion(name='Return Client Discount', discount_percentage=15, validity_start_date=date(2023, 7, 1), validity_end_date=date(2023, 9, 30))\npromotion3 = Promotion(name='Holiday Discount', discount_percentage=20, validity_start_date=date(2023, 12, 1), validity_end_date=date(2024, 1, 31))\npromotion4 = Promotion(name='Loyalty Program', discount_percentage=5, validity_start_date=date(2023, 1, 1), validity_end_date=date(2023, 12, 31))",
+    "name": "DogWalkingDB"
+}

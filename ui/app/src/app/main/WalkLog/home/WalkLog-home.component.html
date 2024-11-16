@@ -1,0 +1,46 @@
+<o-form-layout-manager attr="WalkLog" mode="tab" title="WALKLOG">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="WalkLogTable" 
+            service="WalkLog" 
+            entity="WalkLog" 
+            title="WALKLOG"
+            keys="id"
+            columns="id;walk_schedule_id;duration;notes;distance_walked" 
+            header-actions="R;D"
+            visible-columns="id;walk_schedule_id;duration;notes;distance_walked"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="walk_schedule_id" title="walk_schedule_id">
+    <o-table-cell-renderer-service attr="walk_schedule_id" 
+        service="WalkSchedule" entity="WalkScheduleType" columns="id;id"
+        parent-keys="id:walk_schedule_id"
+        value-column="id" keys="walk_schedule_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column #duration attr="duration" title="duration" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column #notes attr="notes" title="notes" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column #distance_walked attr="distance_walked" title="distance_walked" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

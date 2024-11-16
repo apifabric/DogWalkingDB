@@ -1,0 +1,191 @@
+<div class="container">
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="name" breadcrumb-separator=", " class="fill-form">
+      <o-form #form attr="Client_form_edit" 
+        service="Client" 
+        entity="Client" 
+        fxLayout="column" 
+        show-header="yes" 
+        header-actions="R;I;U;D"
+        #oDetailForm keys="id" 
+        keys-sql-types="INTEGER" 
+        show-header-navigation="yes"
+        (onDataLoaded)="onDataLoaded($event)">
+
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      
+      <o-text-input #name attr="name" label=" name*" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-text-input #phone_number attr="phone_number" label="phone_number" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-text-input #email attr="email" label="email" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="no" ></o-integer-input>
+      
+    </div>
+  </o-row>
+      
+      <mat-tab-group fxFill>
+        
+        <mat-tab label="DOG-client_id">
+    <div layout-padding>
+      <o-table 
+        attr="DogTable" 
+        service="Dog" 
+        entity="Dog" 
+        keys="id"
+        parent-keys="client_id:id"
+        columns="name;client_id;age;id;breed"  
+        horizontal-scroll="yes"
+        detail-form-route="Dog" 
+        edit-form-route="Dog"
+        visible-columns="name;client_id;age;id;breed"  
+        sort-columns="name" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #name attr="name" title=" name*" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column attr="client_id" title="client_id">
+    <o-table-cell-renderer-service attr="client_id" 
+        service="Client" entity="ClientType" columns="id;name"
+        parent-keys="id:client_id"
+        value-column="name" keys="client_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #age attr="age" title="age" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column #id attr="id" title="id" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column #breed attr="breed" title="breed" editable="no" required="no" content-align="left"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="FEEDBACK-client_id">
+    <div layout-padding>
+      <o-table 
+        attr="FeedbackTable" 
+        service="Feedback" 
+        entity="Feedback" 
+        keys="id"
+        parent-keys="client_id:id"
+        columns="id;client_id;walk_log_id;rating;comments"  
+        horizontal-scroll="yes"
+        detail-form-route="Feedback" 
+        edit-form-route="Feedback"
+        visible-columns="id;client_id;walk_log_id;rating;comments"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="client_id" title="client_id">
+    <o-table-cell-renderer-service attr="client_id" 
+        service="Client" entity="ClientType" columns="id;name"
+        parent-keys="id:client_id"
+        value-column="name" keys="client_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="walk_log_id" title="walk_log_id">
+    <o-table-cell-renderer-service attr="walk_log_id" 
+        service="WalkLog" entity="WalkLogType" columns="id;id"
+        parent-keys="id:walk_log_id"
+        value-column="id" keys="walk_log_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #rating attr="rating" title="rating" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column #comments attr="comments" title="comments" editable="no" required="no" content-align="left"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="INVOICE-client_id">
+    <div layout-padding>
+      <o-table 
+        attr="InvoiceTable" 
+        service="Invoice" 
+        entity="Invoice" 
+        keys="id"
+        parent-keys="client_id:id"
+        columns="id;client_id;amount_due;due_date;paid_date"  
+        horizontal-scroll="yes"
+        detail-form-route="Invoice" 
+        edit-form-route="Invoice"
+        visible-columns="id;client_id;amount_due;due_date;paid_date"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="client_id" title="client_id">
+    <o-table-cell-renderer-service attr="client_id" 
+        service="Client" entity="ClientType" columns="id;name"
+        parent-keys="id:client_id"
+        value-column="name" keys="client_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #amount_due attr="amount_due" title="amount_due" type="integer" editable="no" required="yes" content-align="center"></o-table-column>
+        
+          <o-date-input #due_date attr="due_date" type="date" label="due_date" enabled="yes" required="yes" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+        
+          <o-date-input #paid_date attr="paid_date" type="date" label="paid_date" enabled="yes" required="no" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+      </mat-tab-group>
+      
+    </o-form>
+  </o-form-container>
+</div>

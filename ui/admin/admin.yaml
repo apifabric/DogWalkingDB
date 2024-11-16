@@ -1,0 +1,344 @@
+about:
+  date: November 16, 2024 19:12:41
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 11
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Client:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: phone_number
+    - name: email
+    - name: id
+    description: Represents a client in the dog walking business.
+    info_list: Represents a client in the dog walking business.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - client_id
+      name: DogList
+      resource: Dog
+    - direction: tomany
+      fks:
+      - client_id
+      name: FeedbackList
+      resource: Feedback
+    - direction: tomany
+      fks:
+      - client_id
+      name: InvoiceList
+      resource: Invoice
+    type: Client
+    user_key: name
+  Dog:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: client_id
+    - name: age
+    - name: id
+    - name: breed
+    description: Represents a dog belonging to a client.
+    info_list: Represents a dog belonging to a client.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - dog_id
+      name: WalkScheduleList
+      resource: WalkSchedule
+    - direction: toone
+      fks:
+      - client_id
+      name: client
+      resource: Client
+    type: Dog
+    user_key: name
+  Feedback:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: client_id
+    - name: walk_log_id
+    - name: rating
+    - name: comments
+    description: Represents feedback from clients about a walk/walker.
+    info_list: Represents feedback from clients about a walk/walker.
+    tab_groups:
+    - direction: toone
+      fks:
+      - client_id
+      name: client
+      resource: Client
+    - direction: toone
+      fks:
+      - walk_log_id
+      name: walk_log
+      resource: WalkLog
+    type: Feedback
+    user_key: id
+  Invoice:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: client_id
+    - name: amount_due
+      required: true
+    - name: due_date
+      required: true
+      type: DATE
+    - name: paid_date
+      type: DATE
+    description: Represents an invoice for services provided to a client.
+    info_list: Represents an invoice for services provided to a client.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - invoice_id
+      name: PaymentList
+      resource: Payment
+    - direction: toone
+      fks:
+      - client_id
+      name: client
+      resource: Client
+    type: Invoice
+    user_key: id
+  Payment:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: invoice_id
+    - name: payment_date
+      required: true
+      type: DATE
+    - name: amount_paid
+      required: true
+    description: Represents a payment made by a client.
+    info_list: Represents a payment made by a client.
+    tab_groups:
+    - direction: toone
+      fks:
+      - invoice_id
+      name: invoice
+      resource: Invoice
+    type: Payment
+    user_key: id
+  Promotion:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: discount_percentage
+    - name: validity_start_date
+      type: DATE
+    - name: validity_end_date
+      type: DATE
+    - name: id
+    description: Represents promotional offers available to clients.
+    info_list: Represents promotional offers available to clients.
+    type: Promotion
+    user_key: name
+  ServiceType:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: rate
+    - name: description
+    - name: id
+    description: Represents different types of services offered.
+    info_list: Represents different types of services offered.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - service_type_id
+      name: WalkServiceList
+      resource: WalkService
+    type: ServiceType
+    user_key: name
+  SpecialInstruction:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: walk_schedule_id
+    - name: instruction
+      required: true
+    description: Represents special instructions for a dog walk.
+    info_list: Represents special instructions for a dog walk.
+    tab_groups:
+    - direction: toone
+      fks:
+      - walk_schedule_id
+      name: walk_schedule
+      resource: WalkSchedule
+    type: SpecialInstruction
+    user_key: id
+  WalkLog:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: walk_schedule_id
+    - name: duration
+    - name: notes
+    - name: distance_walked
+    description: Logs details about a completed dog walk.
+    info_list: Logs details about a completed dog walk.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - walk_log_id
+      name: FeedbackList
+      resource: Feedback
+    - direction: toone
+      fks:
+      - walk_schedule_id
+      name: walk_schedule
+      resource: WalkSchedule
+    type: WalkLog
+    user_key: id
+  WalkSchedule:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: dog_id
+    - name: walker_id
+    - name: walk_date
+      required: true
+      type: DATE
+    - name: start_time
+      required: true
+      type: DATETIME
+    - name: end_time
+      type: DATETIME
+    description: Represents a schedule for a dog walk.
+    info_list: Represents a schedule for a dog walk.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - walk_schedule_id
+      name: SpecialInstructionList
+      resource: SpecialInstruction
+    - direction: tomany
+      fks:
+      - walk_schedule_id
+      name: WalkLogList
+      resource: WalkLog
+    - direction: tomany
+      fks:
+      - walk_schedule_id
+      name: WalkServiceList
+      resource: WalkService
+    - direction: toone
+      fks:
+      - dog_id
+      name: dog
+      resource: Dog
+    - direction: toone
+      fks:
+      - walker_id
+      name: walker
+      resource: Walker
+    type: WalkSchedule
+    user_key: id
+  WalkService:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: service_type_id
+    - name: walk_schedule_id
+    description: Represents a specific service type linked to a walk schedule.
+    info_list: Represents a specific service type linked to a walk schedule.
+    tab_groups:
+    - direction: toone
+      fks:
+      - service_type_id
+      name: service_type
+      resource: ServiceType
+    - direction: toone
+      fks:
+      - walk_schedule_id
+      name: walk_schedule
+      resource: WalkSchedule
+    type: WalkService
+    user_key: id
+  Walker:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: phone_number
+    - name: email
+    - name: id
+    description: Represents a dog walker.
+    info_list: Represents a dog walker.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - walker_id
+      name: WalkScheduleList
+      resource: WalkSchedule
+    type: Walker
+    user_key: name
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

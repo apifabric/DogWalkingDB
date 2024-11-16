@@ -1,0 +1,41 @@
+<o-form #InvoiceForm attr="Invoice_form_insert" service="Invoice" entity="Invoice" 
+keys="id" fxLayout="column" show-header="yes" header-actions="I"
+horizontal-scroll="yes"
+after-insert-mode="new" class="standalone-form-container" (onInsertMode)="onInsertMode()">
+
+<o-row attr="row1" layout-align="start stretch">
+  <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+    
+        <o-integer-input #id attr="id" label=" id*" type="integer" editable="no" required="no" ></o-integer-input>
+      
+        <o-list-picker 
+        attr="client_id"
+        service="Client" 
+        entity="ClientType"
+        fxFlex="30" 
+        query-on-init="no" 
+        query-on-bind="yes" 
+        required="no" 
+        enabled="yes" 
+        filter="yes"
+        value-column="id" 
+        value-column-type="INTEGER"  
+        keys="id" 
+        columns="id;client_id;name" 
+        title="client_id"
+        visible-columns="id;name" 
+        separator=" - " width="680px" class="form-field">
+</o-list-picker>
+      
+        <o-integer-input #amount_due attr="amount_due" label="amount_due" type="integer" editable="no" required="yes" ></o-integer-input>
+      
+        <o-date-input #due_date attr="due_date" type="date" label="due_date" enabled="yes" required="yes" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+      
+        <o-date-input #paid_date attr="paid_date" type="date" label="paid_date" enabled="yes" required="no" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+      
+</div>
+</o-row>
+
+<div layout-padding></div>
+
+</o-form>

@@ -1,0 +1,46 @@
+<o-form-layout-manager attr="Invoice" mode="tab" title="INVOICE">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="InvoiceTable" 
+            service="Invoice" 
+            entity="Invoice" 
+            title="INVOICE"
+            keys="id"
+            columns="id;client_id;amount_due;due_date;paid_date" 
+            header-actions="R;D"
+            visible-columns="id;client_id;amount_due;due_date;paid_date"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="client_id" title="client_id">
+    <o-table-cell-renderer-service attr="client_id" 
+        service="Client" entity="ClientType" columns="id;name"
+        parent-keys="id:client_id"
+        value-column="name" keys="client_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column #amount_due attr="amount_due" title="amount_due" type="integer" editable="no" required="yes" content-align="center"></o-table-column>
+            
+            <o-date-input #due_date attr="due_date" type="date" label="due_date" enabled="yes" required="yes" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+            
+            <o-date-input #paid_date attr="paid_date" type="date" label="paid_date" enabled="yes" required="no" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

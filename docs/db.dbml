@@ -1,0 +1,124 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+// Or, view in VSCode with extension: "DBML Live Preview"
+
+Project DBML {
+  Note: '''
+Client: Represents a client in the dog walking business.
+Dog: Represents a dog belonging to a client.
+Feedback: Represents feedback from clients about a walk/walker.
+WalkLog: Logs details about a completed dog walk.
+Invoice: Represents an invoice for services provided to a client.
+Payment: Represents a payment made by a client.
+Promotion: Represents promotional offers available to clients.
+ServiceType: Represents different types of services offered.
+SpecialInstruction: Represents special instructions for a dog walk.
+WalkSchedule: Represents a schedule for a dog walk.
+Walker: Represents a dog walker.
+WalkService: Represents a specific service type linked to a walk schedule.
+'''
+}
+
+Table Client {
+    id INTEGER [primary key]
+    name VARCHAR 
+    phone_number VARCHAR 
+    email VARCHAR 
+    }
+
+Table Dog {
+    id INTEGER [primary key]
+    name VARCHAR 
+    breed VARCHAR 
+    age INTEGER 
+    client_id INTEGER 
+    }
+
+Table Feedback {
+    id INTEGER [primary key]
+    walk_log_id INTEGER 
+    client_id INTEGER 
+    rating INTEGER 
+    comments VARCHAR 
+    }
+
+Table WalkLog {
+    id INTEGER [primary key]
+    walk_schedule_id INTEGER 
+    distance_walked INTEGER 
+    duration INTEGER 
+    notes VARCHAR 
+    }
+
+Table Invoice {
+    id INTEGER [primary key]
+    client_id INTEGER 
+    amount_due INTEGER 
+    due_date DATE 
+    paid_date DATE 
+    }
+
+Table Payment {
+    id INTEGER [primary key]
+    invoice_id INTEGER 
+    amount_paid INTEGER 
+    payment_date DATE 
+    }
+
+Table Promotion {
+    id INTEGER [primary key]
+    name VARCHAR 
+    discount_percentage INTEGER 
+    validity_start_date DATE 
+    validity_end_date DATE 
+    }
+
+Table ServiceType {
+    id INTEGER [primary key]
+    name VARCHAR 
+    rate INTEGER 
+    description VARCHAR 
+    }
+
+Table SpecialInstruction {
+    id INTEGER [primary key]
+    walk_schedule_id INTEGER 
+    instruction VARCHAR 
+    }
+
+Table WalkSchedule {
+    id INTEGER [primary key]
+    walk_date DATE 
+    start_time DATETIME 
+    end_time DATETIME 
+    walker_id INTEGER 
+    dog_id INTEGER 
+    }
+
+Table Walker {
+    id INTEGER [primary key]
+    name VARCHAR 
+    phone_number VARCHAR 
+    email VARCHAR 
+    }
+
+Table WalkService {
+    id INTEGER [primary key]
+    walk_schedule_id INTEGER 
+    service_type_id INTEGER 
+    }
+
+
+
+// Relationships
+    Ref: Dog.(client_id) < Client.(id)
+    Ref: Feedback.(client_id) < Client.(id)
+    Ref: Feedback.(walk_log_id) < WalkLog.(id)
+    Ref: WalkLog.(walk_schedule_id) < WalkSchedule.(id)
+    Ref: Invoice.(client_id) < Client.(id)
+    Ref: Payment.(invoice_id) < Invoice.(id)
+    Ref: SpecialInstruction.(walk_schedule_id) < WalkSchedule.(id)
+    Ref: WalkSchedule.(dog_id) < Dog.(id)
+    Ref: WalkSchedule.(walker_id) < Walker.(id)
+    Ref: WalkService.(service_type_id) < ServiceType.(id)
+    Ref: WalkService.(walk_schedule_id) < WalkSchedule.(id)
